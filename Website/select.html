@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)http://webpages.csus.edu/chunyueleung/select.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<script src="./select_files/jquery.min.js.download"></script>
+
+<script>
+$(document).ready(function(){
+	    $.get("faculty-members_json.js", function(data, status){
+		var myObj = JSON.parse(data);
+		printFrom(myObj);
+
+    });
+	
+	function printFrom(myObj){
+		var txt="";
+		txt += "<form id = 'myForm' >";
+		for(x in myObj.person){
+			txt += "<input type='checkbox' name ='selction' value =" +myObj.person[x].name.last + ">"  + myObj.person[x].name.first + " " + myObj.person[x].name.last + "<br>";
+		}
+		txt += "<input type='button' id ='checkboxbutton' value='submit'>";
+		txt += "</form>";
+		$("#demoform").html(txt);
+		
+		var value = [];
+		$('#checkboxbutton').click(function() {
+			$('#result').empty();
+				$.each($("input[name='selction']:checked"), function(){            
+                value.push($(this).val());
+            });
+			//alert(value.join(", "));
+				$.post("index.html", value.join(","), function(data, status){
+					alert("Data: " +  value.join(",") + "\nStatus: " + status);
+				});
+		});
+		
+	}
+	
+});
+
+
+</script>
+
+</head><body>
+
+
+<h1>SelectionForm</h1>
+<br>
+<p id="demoform"><form id="myForm"><input type="checkbox" name="selction" value="Muyan-Ozcelik">Pinar Muyan-Ozcelik<br><input type="checkbox" name="selction" value="Wang">Chung-E Wang<br><input type="button" id="checkboxbutton" value="submit"></form></p>
+
+
+</body></html>

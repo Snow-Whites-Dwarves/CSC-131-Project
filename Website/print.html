@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)http://webpages.csus.edu/chunyueleung/print.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<style>
+
+@media screen, print{
+	body {
+  -webkit-print-color-adjust: exact;
+font-family: "Times New Roman", Times, serif;
+}
+	table {
+		width: 100%;
+		text-align: center;
+	}
+
+	th {
+		border-style: double;
+		border-width: 3px;
+	}
+
+
+
+	#couseTableHeader{
+		border-style: double;
+		border-width: 5px;
+		background: url(dot.png) left center repeat;
+		height : 25px;
+		color: white;	
+	}
+
+
+	#officehoursTable, #contactDetails{
+		font-weight: bold;
+		text-align: left;
+	}
+	#contactDetails{
+		text-align: right;
+	}
+
+	#container{
+		border-style: double;
+		border-width: 5px;
+		max-height: 6in;
+		min-height: 3in;
+		width:  7.5in;
+		text-align: center;
+		padding-top: 10px;
+		padding-right: 10px;
+		padding-bottom: 10px;
+		padding-left: 10px;
+		margin-top: 20px;
+		margin-bottom: 20px;
+		margin-right: 20px;
+		margin-left: 20px;
+		
+	}
+}
+@media print{
+#pagebreak {page-break-after: always;}
+}
+
+</style>
+
+<script src="./print_files/jquery.min.js.download"></script>
+
+<script>
+
+
+$(document).ready(function(){
+	    $.get("faculty-members_json.js", function(data, status){
+		var myObj = JSON.parse(data);
+		var wholePage="";
+		
+		for(x in myObj.person){
+			wholePage += singlePage(myObj.person[x]);
+			if (x%2 == 0)
+				wholePage +="<p id = pagebreak> </p>";
+			}
+		$("#demoform").html(wholePage);
+    });
+	//  <link rel="stylesheet" type="text/css" href="style.css">
+	function singlePage(s){
+		var txt = "<div id='container'>";
+		txt += "<h3>CALIFORNIA STATE UNIVERSITY, SACRAMENTO</h3>";
+		txt += "<h3>DEPARTMENT OF COMPUTER SCIENCE</h3>";
+		txt += "<h3>SPRING 2017</h3>";
+		txt += s.name.title + " " + s.name.suffix + " "+ s.name.first + " "+ s.name.last;
+		txt += "<table id = 'courseTable' >"
+	    txt += "<tr  id ='couseTableHeader'><th> Course</th> <th>Section</th> <th>Days</th> <th>Time</th> <th>Room</th> </th></tr>";
+	    for (x in s.courses){
+			txt += courseDetails(s.courses[x]);
+		}
+		txt += "</table>";
+		txt +="<br>";
+		txt += "<table id='officehoursTable'>";
+		
+		for (x in s.office.hours){
+			if(x == 0)
+				txt +="<tr><td align='right'>Office Hours:";
+			else
+				txt += "<tr><td>                   ";
+			txt += hoursDetails(s.office.hours[x]);
+		}
+		txt += "</table>";
+		txt += "<table id = 'contactDetails'>";
+		txt += "<tr>";
+		if (s.office.room !="")
+			txt +="<tr><td align = 'left'> Office: " + s.office.building +" " + s.office.room + "</td>";
+		if (s.contact.email !="")
+			txt +="<td>Email: "+ s.contact.email + "</td>";
+		if (s.contact.phone !="")
+			txt +="<td>Office Phone: "+ s.contact.phone + "</td>";
+		txt +="</tr></table>";
+		txt += "</div>";
+		return txt;
+	}
+	
+	function courseDetails(s){
+		var txt = "<tr><td>" + s.course +"</td><td>"+ s.section + "</td><td>"+ s.days + "</td><td>" + s.time + "</td><td>" + s.room + "</td></tr>";
+		return txt;
+	}
+	
+	function hoursDetails(s){
+		var txt = "</td><td>" + s.day +"  " + s.hour +"</td></tr>";
+		return txt;
+	}
+	
+});
+
+
+</script>
+</head>
+<body>
+
+<div id="demoform"><div id="container"><h3>CALIFORNIA STATE UNIVERSITY, SACRAMENTO</h3><h3>DEPARTMENT OF COMPUTER SCIENCE</h3><h3>SPRING 2017</h3>Dr  Pinar Muyan-Ozcelik<table id="courseTable"><tbody><tr id="couseTableHeader"><th> Course</th> <th>Section</th> <th>Days</th> <th>Time</th> <th>Room</th> </tr><tr><td>CSC 133</td><td>1</td><td>TR</td><td>12:00PM-1:15PM</td><td>ARC 3004</td></tr><tr><td>CSC 133</td><td>3</td><td>TR</td><td>4:00PM-5:15PM</td><td>ARC 3004</td></tr><tr><td>CSC 196U</td><td>1</td><td>TR</td><td>10:30AM-11:45AM</td><td>RVR 5029</td></tr></tbody></table><br><table id="officehoursTable"><tbody><tr><td align="right">Office Hours:</td><td>Tuseday  3:00PM-3:50PM</td></tr><tr><td>                   </td><td>Thursday  1:40PM-3:50PM</td></tr></tbody></table><table id="contactDetails"><tbody><tr></tr><tr><td align="left"> Office: Riverside 5008</td><td>Office Phone: 916-278-6713</td></tr></tbody></table></div><div id="container"><h3>CALIFORNIA STATE UNIVERSITY, SACRAMENTO</h3><h3>DEPARTMENT OF COMPUTER SCIENCE</h3><h3>SPRING 2017</h3>Dr.  Chung-E Wang<table id="courseTable"><tbody><tr id="couseTableHeader"><th> Course</th> <th>Section</th> <th>Days</th> <th>Time</th> <th>Room</th> </tr><tr><td>CSC 20</td><td>1</td><td>MW</td><td>2:00PM-2:50PM</td><td>RVR 1008</td></tr><tr><td>CSC 20</td><td>2</td><td>M</td><td>3:00PM-4:40PM</td><td>RVR 2013</td></tr><tr><td>CSC 20</td><td>3</td><td>W</td><td>3:00PM-4:40PM</td><td>RVR 2013</td></tr><tr><td>CSC 20</td><td>4</td><td>TR</td><td>8:00AM-8:50AM</td><td>RVR 1002</td></tr><tr><td>CSC 20</td><td>5</td><td>T</td><td>9:00AM-10:40AM</td><td>RVR 2013</td></tr><tr><td>CSC 20</td><td>6</td><td>R</td><td>9:00AM-10:40AM</td><td>RVR 2013</td></tr><tr><td>CSC 206</td><td>1</td><td>MW</td><td>5:30PM-6:45PM</td><td>RVR 1008</td></tr></tbody></table><br><table id="officehoursTable"><tbody><tr><td align="right">Office Hours:</td><td>Monday/Wednesday  4:40PM-5:20PM</td></tr><tr><td>                   </td><td>Tuesday  10:40AM-11:20AM</td></tr></tbody></table><table id="contactDetails"><tbody><tr></tr><tr><td align="left"> Office: Riverside 5056</td><td>Email: wang@ecs.csus.edu</td></tr></tbody></table></div></div>
+
+
+</body></html>
